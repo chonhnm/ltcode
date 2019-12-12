@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+}
+
+group 'ltcode'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    main {
+        java.srcDir 'src'
+        resources.srcDir 'src'
+        output.resourcesDir java.outputDir
+    }
+    test {
+        java.srcDir 'test'
+    }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
