@@ -11,11 +11,11 @@ public class HeapSort {
         for (int i = 0; i < a.length; i++) {
             a[i] = current.nextInt(count*3);
         }
-        heapSort(a);
+        sort(a);
         System.out.println(a);
     }
 
-    public static void heapSort(int[] data) {
+    public static void sort(int[] data) {
         HeapData heapData = new HeapData(data);
         buildMaxHeap(heapData);
         for (int i = data.length - 1; i > 0; i--) {
