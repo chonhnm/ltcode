@@ -1,7 +1,5 @@
 package algo.chap8;
 
-import com.sun.tools.javac.Main;
-
 public class CountingSort {
 
     public static void sort(int[] data, int max) {
