@@ -2,6 +2,8 @@ package algo.chap10;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Stack<T> {
 
@@ -42,6 +44,11 @@ public class Stack<T> {
 
     private void resize(int size) {
         data = Arrays.copyOf(data, data.length * 2);
+    }
+
+    public static void main(String[] args) {
+        Map map = new HashMap<>(4);
+        map.put("a", 1);
     }
 
 }
