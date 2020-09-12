@@ -110,10 +110,10 @@ bool isMatchDpBottomUp(char *s, char *p) {
 }
 
 bool isMatchDpTopDown(char *s, char *p) {
-    bool helper(int i, int j, char *s, char *p, bool* []);
+    bool helper(int i, int j, char *s, char *p, char*[]);
     size_t slen = strlen(s);
     size_t plen = strlen(p);
-    bool *dp[slen + 1];
+    char *dp[slen + 1];
     for (size_t i = 0; i <= slen ; i ++) {
         dp[i] = calloc(sizeof *dp[i], plen + 1);
     }
@@ -124,11 +124,11 @@ bool isMatchDpTopDown(char *s, char *p) {
     return ans;
 }
 
-bool helper(int i, int j, char *s, char *p, bool *dp[]) {
+bool helper(int i, int j, char *s, char *p, char *dp[]) {
     size_t plen = strlen(p);
-    // if (dp[i][j] != 255) {
-    //     return dp[i][j];
-    // }
+    if (dp[i][j] != '\0') {
+        return dp[i][j] == '1'; // '1':true, '2':false
+    }
     size_t slen = strlen(s);
     bool ans;
     if (j == plen) {
@@ -142,6 +142,6 @@ bool helper(int i, int j, char *s, char *p, bool *dp[]) {
             ans = firstMatch && helper(i + 1, j + 1, s, p, dp);
         }
     }
-    dp[i][j] = ans;
+    dp[i][j] = ans ? '1' : '2';
     return ans;
 }
