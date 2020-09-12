@@ -10,51 +10,25 @@ bool isMatchDpBottomUp(char *, char *);
 bool isMatchDpTopDown(char *, char *);
 bool isMatchDpTopDownWithArr(char *, char *);
 
+void test(bool(char *, char *));
+
+void test(bool mtd(char *, char *)) {
+    assert(false == mtd("aa", "a"));
+    assert(true == mtd("aa", "a*"));
+    assert(true == mtd("ab", ".*"));
+    assert(true == mtd("aab", "c*a*b"));
+    assert(false == mtd("mississippi", "mis*is*p*."));
+    assert(true == mtd("aaa", "a*a"));
+    assert(false == mtd("a", ".*..a*"));
+    assert(true == mtd("", "c*c*"));
+}
+
 int main() {
-    assert(false == isMatch("aa", "a"));
-    assert(true == isMatch("aa", "a*"));
-    assert(true == isMatch("ab", ".*"));
-    assert(true == isMatch("aab", "c*a*b"));
-    assert(false == isMatch("mississippi", "mis*is*p*."));
-    assert(true == isMatch("aaa", "a*a"));
-    assert(false == isMatch("a", ".*..a*"));
-    assert(true == isMatch("", "c*c*"));
-
-    assert(false == isMatch2("aa", "a"));
-    assert(true == isMatch2("aa", "a*"));
-    assert(true == isMatch2("ab", ".*"));
-    assert(true == isMatch2("aab", "c*a*b"));
-    assert(false == isMatch2("mississippi", "mis*is*p*."));
-    assert(true == isMatch2("aaa", "a*a"));
-    assert(false == isMatch2("a", ".*..a*"));
-    assert(true == isMatch2("", "c*c*"));
-
-    assert(false == isMatchDpBottomUp("aa", "a"));
-    assert(true == isMatchDpBottomUp("aa", "a*"));
-    assert(true == isMatchDpBottomUp("ab", ".*"));
-    assert(true == isMatchDpBottomUp("aab", "c*a*b"));
-    assert(false == isMatchDpBottomUp("mississippi", "mis*is*p*."));
-    assert(true == isMatchDpBottomUp("aaa", "a*a"));
-    assert(false == isMatchDpBottomUp("a", ".*..a*"));
-    assert(true == isMatchDpBottomUp("", "c*c*"));
-
-    assert(false == isMatchDpTopDown("aa", "a"));
-    assert(true == isMatchDpTopDown("aa", "a*"));
-    assert(true == isMatchDpTopDown("ab", ".*"));
-    assert(true == isMatchDpTopDown("aab", "c*a*b"));
-    assert(false == isMatchDpTopDown("mississippi", "mis*is*p*."));
-    assert(true == isMatchDpTopDown("aaa", "a*a"));
-    assert(false == isMatchDpTopDown("a", ".*..a*"));
-    assert(true == isMatchDpTopDown("", "c*c*"));
-
-    assert(false == isMatchDpTopDownWithArr("aa", "a"));
-    assert(true == isMatchDpTopDownWithArr("aa", "a*"));
-    assert(true == isMatchDpTopDownWithArr("ab", ".*"));
-    assert(true == isMatchDpTopDownWithArr("aab", "c*a*b"));
-    assert(false == isMatchDpTopDownWithArr("mississippi", "mis*is*p*."));
-    assert(true == isMatchDpTopDownWithArr("aaa", "a*a"));
-    assert(false == isMatchDpTopDownWithArr("a", ".*..a*"));
-    assert(true == isMatchDpTopDownWithArr("", "c*c*"));
+    test(isMatch);
+    test(isMatch2);
+    test(isMatchDpBottomUp);
+    test(isMatchDpTopDown);
+    test(isMatchDpTopDownWithArr);
 }
 
 bool isMatch(char *s, char *p) {
@@ -135,10 +109,10 @@ bool isMatchDpTopDown(char *s, char *p) {
 }
 
 bool helper(int i, int j, char *s, char *p, char *dp[]) {
-    size_t plen = strlen(p);
     if (dp[i][j] != '\0') {
         return dp[i][j] == '1';  // '1':true, '2':false
     }
+    size_t plen = strlen(p);
     size_t slen = strlen(s);
     bool ans;
     if (j == plen) {
