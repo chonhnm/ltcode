@@ -1,13 +1,14 @@
 #include <assert.h>
 #include <stdbool.h>
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 
 bool isMatch(char *, char *);
 bool isMatch2(char *, char *);
 bool isMatchDpBottomUp(char *, char *);
 bool isMatchDpTopDown(char *, char *);
+bool isMatchDpTopDownWithArr(char *, char *);
 
 int main() {
     assert(false == isMatch("aa", "a"));
@@ -45,6 +46,15 @@ int main() {
     assert(true == isMatchDpTopDown("aaa", "a*a"));
     assert(false == isMatchDpTopDown("a", ".*..a*"));
     assert(true == isMatchDpTopDown("", "c*c*"));
+
+    assert(false == isMatchDpTopDownWithArr("aa", "a"));
+    assert(true == isMatchDpTopDownWithArr("aa", "a*"));
+    assert(true == isMatchDpTopDownWithArr("ab", ".*"));
+    assert(true == isMatchDpTopDownWithArr("aab", "c*a*b"));
+    assert(false == isMatchDpTopDownWithArr("mississippi", "mis*is*p*."));
+    assert(true == isMatchDpTopDownWithArr("aaa", "a*a"));
+    assert(false == isMatchDpTopDownWithArr("a", ".*..a*"));
+    assert(true == isMatchDpTopDownWithArr("", "c*c*"));
 }
 
 bool isMatch(char *s, char *p) {
@@ -110,15 +120,15 @@ bool isMatchDpBottomUp(char *s, char *p) {
 }
 
 bool isMatchDpTopDown(char *s, char *p) {
-    bool helper(int i, int j, char *s, char *p, char*[]);
+    bool helper(int i, int j, char *s, char *p, char *[]);
     size_t slen = strlen(s);
     size_t plen = strlen(p);
     char *dp[slen + 1];
-    for (size_t i = 0; i <= slen ; i ++) {
+    for (size_t i = 0; i <= slen; i++) {
         dp[i] = calloc(sizeof *dp[i], plen + 1);
     }
     bool ans = helper(0, 0, s, p, dp);
-    for (size_t i = 0; i <= slen ; i ++) {
+    for (size_t i = 0; i <= slen; i++) {
         free(dp[i]);
     }
     return ans;
@@ -127,7 +137,7 @@ bool isMatchDpTopDown(char *s, char *p) {
 bool helper(int i, int j, char *s, char *p, char *dp[]) {
     size_t plen = strlen(p);
     if (dp[i][j] != '\0') {
-        return dp[i][j] == '1'; // '1':true, '2':false
+        return dp[i][j] == '1';  // '1':true, '2':false
     }
     size_t slen = strlen(s);
     bool ans;
@@ -143,5 +153,38 @@ bool helper(int i, int j, char *s, char *p, char *dp[]) {
         }
     }
     dp[i][j] = ans ? '1' : '2';
+    return ans;
+}
+
+bool isMatchDpTopDownWithArr(char *s, char *p) {
+    bool helperWithArr(int i, int j, char *s, char *p, char *);
+    size_t slen = strlen(s);
+    size_t plen = strlen(p);
+    char dp[slen + 1][plen + 1];
+    memset(dp, 0, (slen + 1) * (plen + 1));
+    bool ans = helperWithArr(0, 0, s, p, (char *)dp);
+
+    return ans;
+}
+
+bool helperWithArr(int i, int j, char *s, char *p, char *dp) {
+    size_t plen = strlen(p);
+    if (*(dp + i * (plen + 1) + j) != '\0') {
+        return *(dp + i * (plen + 1) + j) == '1';  // '1':true, '2':false
+    }
+    size_t slen = strlen(s);
+    bool ans;
+    if (j == plen) {
+        ans = i == slen;
+    } else {
+        bool firstMatch = i < slen && (*(s + i) == *(p + j) || *(p + j) == '.');
+        if (j + 1 < plen && *(p + j + 1) == '*') {
+            ans = helperWithArr(i, j + 2, s, p, (char *)dp) ||
+                  (firstMatch && helperWithArr(i + 1, j, s, p, (char *)dp));
+        } else {
+            ans = firstMatch && helperWithArr(i + 1, j + 1, s, p, (char *)dp);
+        }
+    }
+    *(dp + i * (plen + 1) + j) = ans ? '1' : '2';
     return ans;
 }
