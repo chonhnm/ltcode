@@ -14,7 +14,6 @@ int main() {
     }
     int lidx, ridx;
     time_t t1 = time(NULL);
-    // int a = max_sub_array_linear(arr, 0, SIZE - 1, &lidx, &ridx);
     int a = max_sub_array(arr, 0, SIZE - 1, &lidx, &ridx);
     time_t t2 = time(NULL);
     double diff = difftime(t2, t1);
@@ -24,11 +23,10 @@ int main() {
 }
 
 int max_sub_array(int arr[], int low, int high, int *lidx, int *ridx) {
-    if ((high - low) <= 10) {
-        // *lidx = low;
-        // *ridx = low;
-        // return arr[low];
-        return max_sub_array_force(arr, low, high, lidx, ridx);
+    if (low >= high) {
+        *lidx = low;
+        *ridx = low;
+        return arr[low];
     } else {
         int max_crossing_array(int arr[], int low, int mid, int high, int *lidx, int *ridx);
         int mid = (low + high) / 2;
@@ -94,57 +92,4 @@ int max_sub_array_force(int arr[], int low, int high, int *lidx, int *ridx) {
     *lidx = l;
     *ridx = r;
     return maxsum;
-}
-
-int max_sub_array_linear(int arr[], int low, int high, int *lidx, int *ridx) {
-    // int l = low, r = low;
-    // int maxsum = arr[low];
-    // for (int i = low + 1; i <= high; i++) {
-    //     int endsum = INT_MIN;
-    //     int sum = 0;
-    //     int endl, endr = i;
-    //     for (int j = i; j >= r; j--) {
-    //         if (j == r) {
-    //             sum += maxsum;
-    //         } else {
-    //             sum += arr[j];
-    //         }
-    //         if (sum > endsum) {
-    //             endsum = sum;
-    //             if (j == r) {
-    //                 endl = l;
-    //             } else {
-    //                 endl = j;
-    //             }
-    //         }
-    //     }
-    //     if (endsum > maxsum) {
-    //         l = endl;
-    //         r = endr;
-    //         maxsum = endsum;
-    //     }
-    // }
-    // *lidx = l;
-    // *ridx = r;
-    // return maxsum;
-
-    int max = INT_MIN;
-    int l_m, h_m;
-    int max_r = 0;
-    int l_r = 1;
-    for (int i = low; i <= high; i++) {
-        max_r += arr[i];
-        if (max_r > max) {
-            l_m = l_r;
-            h_m = i;
-            max = max_r;
-        }
-        if (max_r < 0) {
-            max_r = 0;
-            l_r = i + 1;
-        }
-    }
-    *lidx = l_m;
-    *ridx = h_m;
-    return max;
 }
