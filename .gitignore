@@ -1,3 +1,7 @@
 .gradle
 .settings
 bin
+.classpath
+.project
+out
+.idea
