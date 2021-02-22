@@ -5,3 +5,7 @@ bin
 .project
 out
 .idea
+build
+gradlew
+gradlew.bat
+gradle
